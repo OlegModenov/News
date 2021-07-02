@@ -7,9 +7,9 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('', index),
+    path('', index, name='home'),
     path('test/', test),
-    path('category/<int:category_id>/', get_category)
+    path('category/<int:category_id>/', get_category, name='category')
 ]
 
 # Формирование маршрута, по которому Django отдает медиафайлы (в отладочном режиме).
