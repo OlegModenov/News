@@ -12,7 +12,7 @@
     {% for item in news %}
         <div class="card mb-3">
             <div class="card-header">
-                Категория: <a href="{% url 'category' item.category.pk %}" >{{ item.category }}</a>
+                Категория: <a href="{{ item.category.get_absolute_url }}" >{{ item.category }}</a>
             </div>
             <div class="card-body">
                 <div class="media">
@@ -29,7 +29,7 @@
                     {% autoescape off %}
                     <p class="card-text">{{ item.content | truncatewords:50}}</p>
                     {% endautoescape %}
-                    <a href="#" class="btn btn-primary">Read more</a>
+                    <a href="{{ item.get_absolute_url }}" class="btn btn-primary">Read more</a>
                 </div>
             </div>
             <div class="card-footer text-muted">

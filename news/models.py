@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class News(models.Model):
@@ -12,13 +13,18 @@ class News(models.Model):
     # так как модель категории создавалась позже, нужно поставить null=True, чтобы удалось выполнить миграции
     category = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, verbose_name='Категория')
 
-    def __str__(self):
-        return self.title
-
     class Meta:
         verbose_name = 'Новость'
         verbose_name_plural = 'Новости'
         ordering = ['-creation_date', 'title']
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        # Функция reverse - аналог тега url в шаблоне. Данные функции строят ссылку в py и html файлах соответственно
+        # Передаем в reverse название маршрута и параметр для построения данного маршрута
+        return reverse('news_one', kwargs={'news_id': self.pk})
 
 
 class Category(models.Model):
@@ -31,4 +37,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        # Функция reverse - аналог тега url в шаблоне. Данные функции строят ссылку в py и html файлах соответственно
+        # Передаем в reverse название маршрута и параметр для построения данного маршрута
+        return reverse('category', kwargs={'category_id': self.pk})
+
 
