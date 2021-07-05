@@ -11,6 +11,7 @@ urlpatterns = [
     path('test/', test),
     path('category/<int:category_id>/', get_category, name='category'),
     path('news/<int:news_id>/', view_news, name='news_one'),
+    path('news/add_news/', add_news, name='add_news'),
 ]
 
 # Формирование маршрута, по которому Django отдает медиафайлы (в отладочном режиме).
