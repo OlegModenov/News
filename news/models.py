@@ -3,7 +3,7 @@ from django.urls import reverse
 
 
 class News(models.Model):
-    title = models.CharField(max_length=150, verbose_name='Наименование')
+    title = models.CharField(max_length=150, verbose_name='Название')
     content = models.TextField(verbose_name='Содержание')
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name='Создано')
     update_date = models.DateTimeField(auto_now=True, verbose_name='Обновлено')
@@ -24,7 +24,7 @@ class News(models.Model):
     def get_absolute_url(self):
         # Функция reverse - аналог тега url в шаблоне. Данные функции строят ссылку в py и html файлах соответственно
         # Передаем в reverse название маршрута и параметр для построения данного маршрута
-        return reverse('news_one', kwargs={'news_id': self.pk})
+            return reverse('news_one', kwargs={'news_id': self.pk})
 
 
 class Category(models.Model):
