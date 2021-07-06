@@ -10,8 +10,7 @@ class News(models.Model):
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='Фото', blank=True)
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
 
-    # так как модель категории создавалась позже, нужно поставить null=True, чтобы удалось выполнить миграции
-    category = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, verbose_name='Категория')
+    category = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категория')
 
     class Meta:
         verbose_name = 'Новость'
