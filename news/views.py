@@ -39,11 +39,13 @@ def view_news(request, news_id):
 
 
 def add_news(request):
-    """ Возвращает форму добавления новости """
+    """ Возвращает форму добавления новости в случае get-запроса
+        Производит валидацию, заносит данные в базу и переходит на страницу с новость в случае post-запроса """
     if request.method == 'POST':
         form = NewsForm(request.POST)
         if form.is_valid():
-            news = News.objects.create(**form.cleaned_data)
+            # news = News.objects.create(**form.cleaned_data)  # Для формы, не связнанной с моделью
+            news = form.save()
             return redirect(news)
     else:
         form = NewsForm()
