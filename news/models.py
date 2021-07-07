@@ -41,6 +41,6 @@ class Category(models.Model):
     def get_absolute_url(self):
         # Функция reverse - аналог тега url в шаблоне. Данные функции строят ссылку в py и html файлах соответственно
         # Передаем в reverse название маршрута и параметр для построения данного маршрута
-        return reverse('news_of_category', kwargs={'category_id': self.pk})
+        return reverse('index', kwargs={'category_id': self.pk})
 
 

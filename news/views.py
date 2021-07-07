@@ -50,7 +50,7 @@ class HomeNews(ListView):
 
 class NewsOfCategory(ListView):
     model = News
-    template_name = 'news/news_of_category.html'
+    template_name = 'news/index.html'
     context_object_name = 'news'
     allow_empty = False  # Не выводить пустые списки с категориями
 
