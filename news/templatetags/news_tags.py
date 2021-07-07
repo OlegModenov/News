@@ -1,4 +1,5 @@
 from django import template
+from django.db.models import Count
 
 from news.models import Category
 
@@ -8,7 +9,8 @@ register = template.Library()
 # Реализация вывода sidebar через simple_tag
 @register.simple_tag()
 def get_categories():
-    return Category.objects.all()
+    # Возвращаем только непустые категории (те категории, количество записей которых больше 0)
+    return Category.objects.annotate(amount=Count('news')).filter(amount__gt=0)
 
 
 # Реализация вывода sidebar через inclusion_tag

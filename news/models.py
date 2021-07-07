@@ -9,6 +9,7 @@ class News(models.Model):
     update_date = models.DateTimeField(auto_now=True, verbose_name='Обновлено')
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='Фото', blank=True)
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
+    views = models.IntegerField(default=0)
 
     category = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категория')
 
@@ -23,7 +24,7 @@ class News(models.Model):
     def get_absolute_url(self):
         # Функция reverse - аналог тега url в шаблоне. Данные функции строят ссылку в py и html файлах соответственно
         # Передаем в reverse название маршрута и параметр для построения данного маршрута
-            return reverse('news_one', kwargs={'news_id': self.pk})
+        return reverse('news_one', kwargs={'pk': self.pk})
 
 
 class Category(models.Model):
@@ -40,6 +41,6 @@ class Category(models.Model):
     def get_absolute_url(self):
         # Функция reverse - аналог тега url в шаблоне. Данные функции строят ссылку в py и html файлах соответственно
         # Передаем в reverse название маршрута и параметр для построения данного маршрута
-        return reverse('category', kwargs={'category_id': self.pk})
+        return reverse('news_of_category', kwargs={'category_id': self.pk})
 
 

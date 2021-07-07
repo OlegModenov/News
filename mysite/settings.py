@@ -80,6 +80,18 @@ DATABASES = {
     }
 }
 
+# # Использование MySQL
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'Django',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': 'localhost'
+#
+#     }
+# }
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
