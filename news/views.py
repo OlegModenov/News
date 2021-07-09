@@ -34,7 +34,8 @@ class HomeNews(ListView):
 
     # Возваращает queryset, по умолчанию News.objects.all()
     def get_queryset(self):
-        return News.objects.filter(is_published=True)
+        # select_related - оптимизирует количество SQL-запросов для поля, связанного как ForeignKey
+        return News.objects.filter(is_published=True).select_related('category')
 
 
 # def get_category(request, category_id):
@@ -62,7 +63,7 @@ class NewsOfCategory(ListView):
     def get_queryset(self):
         # будет формироваться запрос: выбрать новости, где is_published == true и category_id = номер категории,
         # который получен из файла urls.py в путях
-        return News.objects.filter(is_published=True, category_id=self.kwargs['category_id'])
+        return News.objects.filter(is_published=True, category_id=self.kwargs['category_id']).select_related('category')
 
 
 # def view_news(request, news_id):

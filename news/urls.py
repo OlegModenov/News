@@ -1,8 +1,4 @@
-# from django.conf import settings
-
-from django.conf import settings
-from django.conf.urls.static import static
-from django.urls import path
+from django.urls import path, include
 
 from .views import *
 
@@ -17,8 +13,3 @@ urlpatterns = [
     # path('news/add_news/', add_news, name='add_news'),
     path('news/add_news/', CreateNews.as_view(), name='add_news'),
 ]
-
-# Формирование маршрута, по которому Django отдает медиафайлы (в отладочном режиме).
-# В обычном режиме все будет работать по умолчанию
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
