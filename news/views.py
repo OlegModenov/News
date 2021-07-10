@@ -2,14 +2,17 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 
 from .models import News, Category
-from .forms import NewsForm
+from .forms import NewsForm, UserRegisterForm
 from .utils import MyMixin
 
 
 def test(request):
     return HttpResponse('<h1> Тестовая страница </h1>')
+
 
 # # Реализация представления через функцию
 # def index(request):
@@ -27,6 +30,7 @@ class HomeNews(MyMixin, ListView):
     template_name = 'news/index.html'  # шаблон, по умолчанию news/news_list.html для ListView
     context_object_name = 'news'  # Объект в шаблоне, по умолчанию object_list для ListView
     mixin_prop = 'hello world'  # Пример работы примеси
+    paginate_by = 2
 
     def get_context_data(self, *, object_list=None, **kwargs):
         """ Возвращает контекст для шаблона """
@@ -57,6 +61,7 @@ class NewsOfCategory(ListView):
     template_name = 'news/index.html'
     context_object_name = 'news'
     allow_empty = False  # Не выводить пустые списки с категориями
+    paginate_by = 2
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -99,9 +104,31 @@ class NewsOne(DetailView):
 #     return render(request, 'news/add_news.html', context)
 
 
-class CreateNews(CreateView):
+class CreateNews(LoginRequiredMixin, CreateView):
     form_class = NewsForm
     template_name = 'news/add_news.html'
     # Также в модели должен быть определен метод get_absolute_url, тогда будет автоматическое перенаправление на
     # нужную страницу. Если этот метод не определен, то можно использовать success_url:
     # success_url = reverse_lazy('home')
+
+    login_url = '/admin/'  # Вариант перенаправления, если пользователь неавторизован
+    # raise_exception = True  # Вариант возникновения 403 ошибки, если пользователь неавторизован
+
+
+def sign_up(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Вы успешно зарегистрировались')
+            return redirect('log_in')
+        else:
+            messages.error(request, 'Ошибка регистрации')
+    else:
+        form = UserRegisterForm()
+    context = {"form": form}
+    return render(request, 'news/sign_up.html', context)
+
+
+def log_in(request):
+    return render(request, 'news/log_in.html')

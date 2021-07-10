@@ -1,10 +1,13 @@
 import re
 from django import forms
 from django.core.exceptions import ValidationError
+
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+
 from .models import Category, News
 
-
-# # Реализация формы, не связанной с моедлью
+# # Реализация формы, не связанной с моделью
 # class NewsForm(forms.Form):
 #     title = forms.CharField(max_length=150, label='Название', widget=forms.TextInput(attrs={"class": "form-control"}))
 #     content = forms.CharField(label='Содержание', required=False,
@@ -15,7 +18,7 @@ from .models import Category, News
 #                                       widget=forms.Select(attrs={"class": "form-control"}))
 
 
-# Реализация формы, связанной с моделью
+# Реализация аналогичной формы, связанной с моделью
 class NewsForm(forms.ModelForm):
     # Настройка отображения категории
     def __init__(self, *args, **kwargs):
@@ -40,3 +43,17 @@ class NewsForm(forms.ModelForm):
         if re.match(r'\d', title):
             raise ValidationError('Название не должно начинаться с цифры')
         return title
+
+
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    # Переопределяем для изменения внешнего вида (widget)
+    username = forms.CharField(label='Имя пользователя', widget=forms.TextInput(attrs={'class': 'form-control'}),
+                               help_text='Обязательное поле. Не более 150 символов')
+    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password2 = forms.CharField(label='Подтверждение пароля',
+                                widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')

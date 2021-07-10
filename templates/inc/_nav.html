@@ -10,10 +10,18 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Главная</a>
                 </li>
+                {% if request.user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'add_news' %}">Добавить новость</a>
                 </li>
+                {% endif %}
             </ul>
+
+            <span class="navbar-brand mb-0 h1">
+                <a href="{% url 'sign_up' %}">Sign up</a>
+                <span> | </span>
+                 <a href="{% url 'log_in' %}">Log in</a>
+            </span>
         </div>
     </div>
 </nav>
