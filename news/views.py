@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 
 from .models import News, Category
 from .forms import NewsForm
+from .utils import MyMixin
 
 
 def test(request):
@@ -21,15 +22,17 @@ def test(request):
 
 
 # Реализация представления через класс
-class HomeNews(ListView):
+class HomeNews(MyMixin, ListView):
     model = News
     template_name = 'news/index.html'  # шаблон, по умолчанию news/news_list.html для ListView
     context_object_name = 'news'  # Объект в шаблоне, по умолчанию object_list для ListView
+    mixin_prop = 'hello world'  # Пример работы примеси
 
     def get_context_data(self, *, object_list=None, **kwargs):
         """ Возвращает контекст для шаблона """
         context = super().get_context_data(**kwargs)  # Сохраняем старые значения
         context['title'] = 'Главная страница'  # Добавляем новые значения
+        context['mixin_prop'] = self.get_upper_prop()
         return context
 
     # Возваращает queryset, по умолчанию News.objects.all()
