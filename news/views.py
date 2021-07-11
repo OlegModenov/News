@@ -3,10 +3,12 @@ from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import login, logout
 from django.contrib import messages
+from django.core.mail import send_mail
 
 from .models import News, Category
-from .forms import NewsForm, UserRegisterForm
+from .forms import *
 from .utils import MyMixin
 
 
@@ -119,9 +121,11 @@ def sign_up(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            # Автоматическая авторизация после успешной регистрации
+            user = form.save()
+            login(request, user)
             messages.success(request, 'Вы успешно зарегистрировались')
-            return redirect('log_in')
+            return redirect('home')
         else:
             messages.error(request, 'Ошибка регистрации')
     else:
@@ -130,5 +134,38 @@ def sign_up(request):
     return render(request, 'news/sign_up.html', context)
 
 
-def log_in(request):
-    return render(request, 'news/log_in.html')
+def user_login(request):
+    if request.method == 'POST':
+        form = UserLoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserLoginForm
+    return render(request, 'news/log_in.html', {"form": form})
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('log_in')
+
+
+def mail(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # send_mail() возвращает 1, если письмо отправлено и 0, если не отправлено
+            res = send_mail(form.cleaned_data['subject'], form.cleaned_data['content'], 'pozvizdd@yandex.ru',
+                            ['olegmodenov@gmail.com'], fail_silently=True)
+            if res:
+                messages.success(request, 'Письмо отправлено')
+            else:
+                messages.error(request, 'Ошибка отправки')
+            return redirect('mail')
+        else:
+            messages.error(request, 'Валидация не пройдена')
+    else:
+        form = ContactForm()
+    context = {"form": form}
+    return render(request, 'news/mail.html', context)

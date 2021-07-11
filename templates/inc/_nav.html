@@ -14,13 +14,20 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'add_news' %}">Добавить новость</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'mail' %}">Обратная связь</a>
+                </li>
                 {% endif %}
             </ul>
 
             <span class="navbar-brand mb-0 h1">
-                <a href="{% url 'sign_up' %}">Sign up</a>
-                <span> | </span>
-                 <a href="{% url 'log_in' %}">Log in</a>
+                {% if request.user.is_authenticated %}
+                    <span> {{ user.username }} | <a href="{% url 'log_out' %}">Выход</a></span>
+                {% else %}
+                    <a href="{% url 'sign_up' %}">Sign up</a>
+                        <span> | </span>
+                     <a href="{% url 'log_in' %}">Log in</a>
+                {% endif %}
             </span>
         </div>
     </div>

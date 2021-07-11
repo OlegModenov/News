@@ -13,5 +13,7 @@ urlpatterns = [
     # path('news/add_news/', add_news, name='add_news'),
     path('news/add_news/', CreateNews.as_view(), name='add_news'),
     path('sign_up/', sign_up, name='sign_up'),
-    path('log_in/', log_in, name='log_in')
+    path('log_in/', user_login, name='log_in'),
+    path('log_out/', user_logout, name='log_out'),
+    path('mail', mail, name='mail'),
 ]

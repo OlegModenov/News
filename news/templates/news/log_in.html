@@ -11,4 +11,26 @@
 {% block content %}
 <h1> Вход </h1>
 
+{% if messages %}
+    {% for message in messages %}
+        <!-- название класса в bootstrap alert-danger не соответствует названию в message.tags (error), поэтому
+        обрабатываем этот случай отдельно -->
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-{{message.tags}}" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+<form action="{% url 'log_in' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary btn-block" type="submit"> Зайти на сайт </button>
+</form>
+
 {% endblock content %}

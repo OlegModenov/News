@@ -153,3 +153,14 @@ MEDIA_URL = '/media/'
 
 # Для Debug Toolbar
 INTERNAL_IPS = ('127.0.0.1', '10.0.2.2',)
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST_USER = 'pozvizdd@yandex.ru'
+EMAIL_HOST_PASSWORD = ''  # Нужно ввести пароль приложения Яндекса
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+
+
