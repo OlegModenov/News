@@ -11,22 +11,6 @@
 {% block content %}
 <h1> Регистрация </h1>
 
-{% if messages %}
-    {% for message in messages %}
-        <!-- название класса в bootstrap alert-danger не соответствует названию в message.tags (error), поэтому
-        обрабатываем этот случай отдельно -->
-        {% if message.tags == 'error' %}
-            <div class="alert alert-danger" role="alert">
-                {{ message }}
-            </div>
-        {% else %}
-            <div class="alert alert-{{message.tags}}" role="alert">
-                {{ message }}
-            </div>
-        {% endif %}
-    {% endfor %}
-{% endif %}
-
 <form action="{% url 'sign_up' %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}

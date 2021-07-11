@@ -121,7 +121,7 @@ def sign_up(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            # Автоматическая авторизация после успешной регистрации
+            # Автоматический вход после успешной регистрации
             user = form.save()
             login(request, user)
             messages.success(request, 'Вы успешно зарегистрировались')

@@ -17,6 +17,22 @@
 </head>
 <body>
 
+{% if messages %}
+    {% for message in messages %}
+        <!-- название класса в bootstrap alert-danger не соответствует названию в message.tags (error), поэтому
+        обрабатываем этот случай отдельно -->
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-{{message.tags}}" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
 {% include 'inc/_nav.html' %}
 
 <div class="container mt-3">
@@ -59,7 +75,6 @@
         </div>
     </div>
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
