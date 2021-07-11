@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('news.urls')),
+    path('captcha/', include('captcha.urls')),
 ]
 
 # Формирование маршрута, по которому Django отдает медиафайлы (в отладочном режиме).
