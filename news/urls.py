@@ -1,11 +1,13 @@
 from django.urls import path, include
 
 from .views import *
+from django.views.decorators.cache import cache_page
 
 urlpatterns = [
     path('test/', test),
     # path('', index, name='home'),
     path('', HomeNews.as_view(), name='home'),
+    # path('', cache_page(60)(HomeNews.as_view()), name='home'),  # Вариант с кэшированием
     # path('category/<int:category_id>/', get_category, name='news_of_category'),
     path('category/<int:category_id>/', NewsOfCategory.as_view(), name='index'),
     # path('news/<int:news_id>/', view_news, name='news_one'),
