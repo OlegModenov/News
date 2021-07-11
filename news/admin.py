@@ -1,10 +1,22 @@
 from django.contrib import admin
+from django import forms
 from django.utils.safestring import mark_safe
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 from .models import *
 
 
+# CKEditor
+class NewsAdminForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorUploadingWidget())
+
+    class Meta:
+        model = News
+        fields = '__all__'
+
+
 class NewsAdmin(admin.ModelAdmin):
+    form = NewsAdminForm  # использование CKEditor
     # отображение в админке всех новостей
     list_display = ('id', 'title', 'category', 'creation_date', 'update_date', 'is_published', 'get_photo')
     list_display_links = ('id', 'title')  # Ссылки на новость в админке

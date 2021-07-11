@@ -32,7 +32,7 @@ class HomeNews(MyMixin, ListView):
     template_name = 'news/index.html'  # шаблон, по умолчанию news/news_list.html для ListView
     context_object_name = 'news'  # Объект в шаблоне, по умолчанию object_list для ListView
     mixin_prop = 'hello world'  # Пример работы примеси
-    paginate_by = 2
+    paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs):
         """ Возвращает контекст для шаблона """

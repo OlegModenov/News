@@ -32,7 +32,7 @@
                 <h5 class="card-title">{{ item.title }}</h5>
                 <!-- Отключение экранирования html-кода в тексте новости-->
                 {% autoescape off %}
-                <p class="card-text">{{ item.content | truncatewords:50}}</p>
+                <p class="card-text">{{ item.content | truncatewords_html:50}}</p>
                 {% endautoescape %}
                 <a href="{{ item.get_absolute_url }}" class="btn btn-primary">Read more</a>
             </div>

@@ -16,4 +16,5 @@ urlpatterns = [
     path('log_in/', user_login, name='log_in'),
     path('log_out/', user_logout, name='log_out'),
     path('mail', mail, name='mail'),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
